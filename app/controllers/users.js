@@ -42,15 +42,10 @@ exports.createUser = async (req, res) => {
         const result = await db.pool.query(query, [nombreUsuario, hash, correo, 'F']);
         const usuarioId = result.insertId;
 
-        const avataresPorUsuarioQuery = 'INSERT INTO avataresPorUsuario (usuarios_id, avatares_id) VALUES (?, ?)';
-        await db.pool.query(avataresPorUsuarioQuery, [usuarioId, 1]);
-
-        const autosPorUsuarioQuery = 'INSERT INTO autosPorUsuario (usuarios_id, autos_id) VALUES (?, ?)';
-        await db.pool.query(autosPorUsuarioQuery, [usuarioId, 1]);
-
         res.json({ id: parseInt(usuarioId) });
     } catch (error) {
         if (error.errno === 1062) {
+            console.log(error);
             return res.status(409).json({ error: 'El nombre de usuario ya existe' });
         }
         console.log(error);
