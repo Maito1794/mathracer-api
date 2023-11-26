@@ -1,7 +1,7 @@
 const db = require('../../config/bd');
 
 exports.getUsersLevelsByCategory = async (req, res) => {
-    const { nombreCategoria } = req.body;
+    const { nombreCategoria } = req.query;
     const { nombreUsuario } = req.params;
     try {
         const [result] = await db.pool.query('SELECT obtenerNivelesInfo(?, ?) AS nivelesInfo', [nombreCategoria, nombreUsuario]);

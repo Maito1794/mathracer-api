@@ -13,11 +13,11 @@ exports.getAllUsers = async (req, res) => {
     }
 };
 
-exports.getUserByUsername = async (req, res) => {
-    const { username } = req.params;
+exports.getUserByNombreUsuario = async (req, res) => {
+    const { nombreUsuario } = req.params;
     try {
         const query = 'SELECT * FROM usuarios WHERE nombreUsuario = ?';
-        const [user] = await db.pool.query(query, [username]);
+        const [user] = await db.pool.query(query, [nombreUsuario]);
         if (!user) {
             res.status(404).json({ error: 'Usuario no encontrado' });
         }
@@ -54,7 +54,7 @@ exports.createUser = async (req, res) => {
 };
 
 exports.updateUserEmail = async (req, res) => {
-    const { username } = req.params;
+    const { nombreUsuario } = req.params;
     const { correo } = req.body;
 
     if (!correo) {
@@ -63,7 +63,7 @@ exports.updateUserEmail = async (req, res) => {
 
     try {
         const query = 'UPDATE usuarios SET correo = ? WHERE nombreUsuario = ?';
-        await db.pool.query(query, [correo, username]);
+        await db.pool.query(query, [correo, nombreUsuario]);
         res.json({ message: 'Email updated successfully' });
     } catch (error) {
         res.status(500).json({ error: 'Error updating email' });
@@ -71,7 +71,7 @@ exports.updateUserEmail = async (req, res) => {
 };
 
 exports.updateUserPassword = async (req, res) => {
-    const { username } = req.params;
+    const { nombreUsuario } = req.params;
     const { contraseña } = req.body;
 
     if (!contraseña) {
@@ -79,8 +79,9 @@ exports.updateUserPassword = async (req, res) => {
     }
 
     try {
+        const hash = await bcrypt.hash(contraseña, saltRounds);
         const query = 'UPDATE usuarios SET contraseña = ? WHERE nombreUsuario = ?';
-        await db.pool.query(query, [contraseña, username]);
+        await db.pool.query(query, [hash, nombreUsuario]);
         res.json({ message: 'Password updated successfully' });
     } catch (error) {
         res.status(500).json({ error: 'Error updating password' });
@@ -88,7 +89,7 @@ exports.updateUserPassword = async (req, res) => {
 }
 
 exports.updateUserAvatar = async (req, res) => {
-    const { username } = req.params;
+    const { nombreUsuario } = req.params;
     const { avatares_id } = req.body;
 
     if (!avatares_id) {
@@ -97,7 +98,7 @@ exports.updateUserAvatar = async (req, res) => {
 
     try {
         const query = 'UPDATE usuarios SET avatares_id = ? WHERE nombreUsuario = ?';
-        await db.pool.query(query, [avatares_id, username]);
+        await db.pool.query(query, [avatares_id, nombreUsuario]);
         res.json({ message: 'Avatar updated successfully' });
     } catch (error) {
         res.status(500).json({ error: 'Error updating avatar' });
@@ -105,7 +106,7 @@ exports.updateUserAvatar = async (req, res) => {
 }
 
 exports.updateUserCar = async (req, res) => {
-    const { username } = req.params;
+    const { nombreUsuario } = req.params;
     const { autos_id } = req.body;
 
     if (!autos_id) {
@@ -114,7 +115,7 @@ exports.updateUserCar = async (req, res) => {
 
     try {
         const query = 'UPDATE usuarios SET autos_id = ? WHERE nombreUsuario = ?';
-        await db.pool.query(query, [autos_id, username]);
+        await db.pool.query(query, [autos_id, nombreUsuario]);
         res.json({ message: 'Car updated successfully' });
     } catch (error) {
         res.status(500).json({ error: 'Error updating car' });
@@ -122,7 +123,7 @@ exports.updateUserCar = async (req, res) => {
 }
 
 exports.updateUserType = async (req, res) => {
-    const { username } = req.params;
+    const { nombreUsuario } = req.params;
     const { tipo } = req.body;
 
     if (!tipo) {
@@ -131,7 +132,7 @@ exports.updateUserType = async (req, res) => {
 
     try {
         const query = 'UPDATE usuarios SET tipo = ? WHERE nombreUsuario = ?';
-        await db.pool.query(query, [tipo, username]);
+        await db.pool.query(query, [tipo, nombreUsuario]);
         res.json({ message: 'User type updated successfully' });
     } catch (error) {
         res.status(500).json({ error: 'Error updating user type' });

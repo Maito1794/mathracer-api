@@ -3,7 +3,7 @@ const db = require('../../config/bd');
 const bcrypt = require('bcrypt');
 
 exports.login = async (req, res) => {
-    const { nombreUsuario, contraseña } = req.body;
+    const { nombreUsuario, contraseña } = req.query;
 
     try {
         const [user] = await db.pool.query('SELECT * FROM usuarios WHERE nombreUsuario = ?', [nombreUsuario]);

@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 const {
     getAllUsers,
-    getUserByUsername,
+    getUserByNombreUsuario,
     createUser,
     updateUserAvatar,
     updateUserCar,
@@ -15,25 +15,25 @@ const {
 // GET /users
 router.get('/', getAllUsers);
 
-// GET /users/:username
-router.get('/:username', getUserByUsername);
+// GET /users/:nombreUsuario
+router.get('/:nombreUsuario', getUserByNombreUsuario);
 
 // POST /users
 router.post('/', createUser);
 
-// PUT /users/email/:username
-router.put('/email/:username', updateUserEmail);
+// PUT /users/email/:nombreUsuario
+router.put('/correo/:nombreUsuario', updateUserEmail);
 
-// PUT /users/avatar/:username
-router.put('/avatar/:username', updateUserAvatar);
+// PUT /users/avatar/:nombreUsuario
+router.put('/avatar/:nombreUsuario', updateUserAvatar);
 
-// PUT /users/car/:username
-router.put('/car/:username', updateUserCar);
+// PUT /users/car/:nombreUsuario
+router.put('/auto/:nombreUsuario', updateUserCar);
 
-// PUT /users/type/:username
-router.put('/type/:username', updateUserType);
+// PUT /users/type/:nombreUsuario
+router.put('/tipo/:nombreUsuario', updateUserType);
 
-// PUT /users/password/:username
-router.put('/password/:username', updateUserPassword);
+// PUT /users/password/:nombreUsuario
+router.put('/password/:nombreUsuario', updateUserPassword);
 
 module.exports = router;
