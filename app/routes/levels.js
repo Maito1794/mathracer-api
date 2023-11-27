@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const { getUsersLevelsByCategory } = require('../controllers/levels');
+const { getUsersLevels } = require('../controllers/levels');
 
-router.get('/:nombreUsuario', getUsersLevelsByCategory);
+router.get('/:nombreUsuario', getUsersLevels);
+
 
 module.exports = router;
