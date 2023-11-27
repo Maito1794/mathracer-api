@@ -27,7 +27,6 @@ exports.getUsersLevels = async (req, res) => {
             return res.status(404).json({ error: 'Preguntas no encontradas' });
         }
         const resultado = organizarDatos(categorias, arrayNiveles, preguntasInfo);
-        console.log("resultado", resultado);
         res.json(resultado);
     } catch (error) {
         console.log(error);
