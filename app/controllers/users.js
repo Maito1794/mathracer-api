@@ -40,12 +40,17 @@ exports.createUser = async (req, res) => {
         const hash = await bcrypt.hash(contraseña, saltRounds);
         const query = 'INSERT INTO usuarios (nombreUsuario, contraseña, correo, tipo) VALUES (?, ?, ?, ?)';
         const result = await db.pool.query(query, [nombreUsuario, hash, correo, 'F']);
+        console.log(result);
         const usuarioId = result.insertId;
-
-        res.json({ id: parseInt(usuarioId) });
+        const [user] = await db.pool.query('SELECT * FROM usuarios WHERE id = ?', [usuarioId]);
+        delete user.contraseña;
+        res.json(user);
     } catch (error) {
         if (error.errno === 1062) {
             console.log(error);
+            if (error.sqlMessage.includes('correo')) {
+                return res.status(409).json({ error: 'El correo ya existe' });
+            }
             return res.status(409).json({ error: 'El nombre de usuario ya existe' });
         }
         console.log(error);
